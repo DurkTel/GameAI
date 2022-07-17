@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using AI;
 public class Test : MonoBehaviour
 {
     private static int[,] map;
@@ -37,15 +37,15 @@ public class Test : MonoBehaviour
             };
 
         getMapStrings();
-        Pathfinding.InitMap(map);
-        List<PathNode> path = Pathfinding.AStar_Finding(new Vector2Int(0, 0), new Vector2Int(6, 8));
+        //Pathfinding.InitMap(map);
+        //List<PathNode> path = Pathfinding.AStar_Finding(new Vector2Int(0, 0), new Vector2Int(6, 8));
 
-        foreach (PathNode PathNode in path)
-        {
-            GameObject go = gameMap[PathNode.X, PathNode.Y];
-            MeshRenderer goMat = go.GetComponent<MeshRenderer>();
-            goMat.materials = new Material[1] { green };
-        }
+        //foreach (PathNode PathNode in path)
+        //{
+        //    GameObject go = gameMap[PathNode.X, PathNode.Y];
+        //    MeshRenderer goMat = go.GetComponent<MeshRenderer>();
+        //    goMat.materials = new Material[1] { green };
+        //}
     }
 
     // Update is called once per frame
