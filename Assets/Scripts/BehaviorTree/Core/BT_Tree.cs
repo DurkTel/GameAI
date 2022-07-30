@@ -23,10 +23,7 @@ namespace AI
         {
             if (!isRunning) return;
 
-            if (root.Evaluate())
-            {
-                root.Tick();
-            }
+            root.Tick();
         }
 
         protected virtual void Init()

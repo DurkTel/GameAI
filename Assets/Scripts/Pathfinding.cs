@@ -12,6 +12,22 @@ namespace AI
 
         private static int m_mapWidth;
 
+        public static void InitMap(int[,] map)
+        {
+            m_mapWidth = map.GetLength(0);
+            m_mapLengh = map.GetLength(1);
+            m_map = new PathNode[m_mapWidth, m_mapLengh];
+            for (int x = 0; x < m_mapWidth; x++)
+            {
+                for (int y = 0; y < m_mapLengh; y++)
+                {
+                    PathNode node = new AstarPathNode();
+                    node.SetData(x, y, map[x,y]);
+                    m_map[x, y] = node;
+                }
+            }
+        }
+
 
         /// <summary>
         /// 重置地图
@@ -110,8 +126,9 @@ namespace AI
 
             DFSRecursion(sNode.X, sNode.Y);
 
-            List<PathNode> path = GetPath(eNode);
 
+            List<PathNode> path = GetPath(eNode);
+            
             return path;
         }
 
@@ -134,7 +151,11 @@ namespace AI
                     PathNode.Visited = true;
                     PathNode.Parent = currentNode;
 
+                    if (PathNode.status == PathNode.NODE_End)
+                        return;
+
                     DFSRecursion(PathNode.X, PathNode.Y);
+
                 }
             }
         }
@@ -178,7 +199,9 @@ namespace AI
                 List<PathNode> neighor = GetNeighor(minNode);
                 foreach (AstarPathNode PathNode in neighor)
                 {
-                    if (PathNode.status != AstarPathNode.NODE_BLOCK && !m_openList.Contains(PathNode) && !m_closeList.Contains(PathNode))
+                    if (PathNode.status != AstarPathNode.NODE_BLOCK &&
+                        !m_openList.Contains(PathNode) &&
+                        !m_closeList.Contains(PathNode))
                     {
                         //与终点的距离
                         PathNode.H = PathNode.GetH(eNode);
@@ -190,8 +213,6 @@ namespace AI
                     }
                 }
             }
-
-
             List<PathNode> path = GetPath(eNode);
 
             return path;
@@ -222,7 +243,7 @@ namespace AI
 
         private static List<PathNode> GetPath(PathNode eNode)
         {
-            //向上递归父节点得出路径
+            //向上输出父节点得出路径
             List<PathNode> path = new List<PathNode>();
             PathNode target = eNode;
             while (target.status != PathNode.NODE_START)

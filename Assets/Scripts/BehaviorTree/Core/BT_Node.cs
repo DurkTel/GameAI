@@ -90,6 +90,9 @@ namespace AI
         /// <returns>返回执行结果</returns>
         public virtual BT_Result Tick()
         {
+            if (!Evaluate())
+                return BT_Result.FAIL;
+
             return BT_Result.NONE;
         }
 
@@ -113,7 +116,7 @@ namespace AI
     /// 行为树的执行结果
     /// </summary>
     public enum BT_Result
-    { 
+    {
         NONE,
         SUCCESSFUL, //成功
         FAIL, //失败
