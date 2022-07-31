@@ -14,20 +14,25 @@ public class FSM_Transition
     private int m_toStatusID;
     public int toStatusID { get { return m_toStatusID; } }
     /// <summary>
+    /// 排序权重
+    /// </summary>
+    private int m_weightOrder;
+    public int weightOrder { get { return m_weightOrder; } }
+    /// <summary>
     /// 切换条件
     /// </summary>
-    public List<FSM_Condition> conditions = new List<FSM_Condition>();
-
-    public FSM_Transition(int formStatus, int toStatus)
+    public List<IFSM_Condition> conditions = new List<IFSM_Condition>();
+    public FSM_Transition(int formStatus, int toStatus, int weightOrder)
     {
         m_formStatusID = formStatus;
         m_toStatusID = toStatus;
+        m_weightOrder = weightOrder;
     }
     /// <summary>
     /// 添加切换条件
     /// </summary>
     /// <param name="condition"></param>
-    public void AddCondition(FSM_Condition condition)
+    public void AddCondition(IFSM_Condition condition)
     {
         if (conditions.Contains(condition))
             return;
@@ -39,14 +44,24 @@ public class FSM_Transition
     /// 刷新这条过渡线
     /// </summary>
     /// <returns>是否连通（条件满足可切换）</returns>
-    public bool Tick()
+    public bool Tick(FSM_DataBase dataBase)
     {
         for (int i = 0; i < conditions.Count; i++)
         {
-            if (!conditions[i].Tick())
+            if (!conditions[i].Tick(dataBase))
                 return false;
         }
 
         return true;
+    }
+    /// <summary>
+    /// 是否存在
+    /// </summary>
+    /// <param name="formStatus"></param>
+    /// <param name="toStatus"></param>
+    /// <returns></returns>
+    public bool Contains(int formStatus, int toStatus)
+    {
+        return formStatus == m_formStatusID && toStatus == m_toStatusID;
     }
 }
