@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FSM_Status_Run : FSM_Status
+public class FSM_Status_Run : FSM_Status<string>
 {
-    public override void Action()
+    public override void OnAction()
     {
         Debug.Log("当前是Run状态");
     }
 
-    public override void EnterStatus()
+    public override void OnEnter()
     {
-        base.EnterStatus();
+        base.OnEnter();
         Debug.Log("进入Run状态");
         dataBase.GetComponent<Animator>().SetBool("run", true);
     }
 
-    public override void ExitStatus()
+    public override void OnExit()
     {
-        base.ExitStatus();
+        base.OnExit();
         dataBase.GetComponent<Animator>().SetBool("run", false);
         Debug.Log("退出Run状态");
     }

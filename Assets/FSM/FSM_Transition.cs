@@ -1,18 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public class FSM_Transition
+public class FSM_Transition<TStateId>
 {
     /// <summary>
     /// 当前状态
     /// </summary>
-    private int m_formStatusID;
-    public int formStatusID { get { return m_formStatusID; } }
+    private TStateId m_formStatusID;
+    public TStateId formStatusID { get { return m_formStatusID; } }
     /// <summary>
     /// 要切换的状态
     /// </summary>
-    private int m_toStatusID;
-    public int toStatusID { get { return m_toStatusID; } }
+    private TStateId m_toStatusID;
+    public TStateId toStatusID { get { return m_toStatusID; } }
     /// <summary>
     /// 排序权重
     /// </summary>
@@ -22,7 +22,7 @@ public class FSM_Transition
     /// 切换条件
     /// </summary>
     public List<IFSM_Condition> conditions = new List<IFSM_Condition>();
-    public FSM_Transition(int formStatus, int toStatus, int weightOrder)
+    public FSM_Transition(TStateId formStatus, TStateId toStatus, int weightOrder = 0)
     {
         m_formStatusID = formStatus;
         m_toStatusID = toStatus;
@@ -55,13 +55,22 @@ public class FSM_Transition
         return true;
     }
     /// <summary>
-    /// 是否存在
+    /// 是否相同
     /// </summary>
     /// <param name="formStatus"></param>
     /// <param name="toStatus"></param>
     /// <returns></returns>
-    public bool Contains(int formStatus, int toStatus)
+    public bool Equals(TStateId formStatus, TStateId toStatus)
     {
-        return formStatus == m_formStatusID && toStatus == m_toStatusID;
+        return EqualityComparer<TStateId>.Default.Equals(formStatus, toStatus);
     }
+}
+
+public class FSM_Transition : FSM_Transition<string>
+{ 
+    public FSM_Transition(string formStatus, string toStatus, int weightOrder = 0) : base(formStatus, toStatus, weightOrder)
+    {
+    
+    }
+
 }
