@@ -36,7 +36,9 @@ public class FSM_StateMachine<TStateId> : FSM_Status<TStateId>, IFSM_Machine<TSt
     /// 一个空过渡线
     /// </summary>
     private static readonly List<FSM_Transition<TStateId>> noTransitions = new List<FSM_Transition<TStateId>>(0);
-
+    /// <summary>
+    /// 是否是根状态机
+    /// </summary>
     public bool isRootMachine { get { return subMachine == null; } }
     /// <summary>
     /// 初始化
